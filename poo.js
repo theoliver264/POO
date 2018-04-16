@@ -12,30 +12,142 @@ if (!Array.prototype.printValues) {
 array.printValues();
 
 // Array from
+Array.from("foo");
+// ["f", "o", "o"]
 
 // Array isArray
+// las siguientes llamadas devuelven true
+Array.isArray([]);
+Array.isArray([1]);
+Array.isArray(new Array());
+// Hecho poco conocido: Array.prototype es también un array:
+Array.isArray(Array.prototype); 
+
+// las siguientes llamadas devuelven false
+Array.isArray();
+Array.isArray({});
+Array.isArray(null);
+Array.isArray(undefined);
+Array.isArray(17);
+Array.isArray('Array');
+Array.isArray(true);
+Array.isArray(false);
+Array.isArray({ __proto__: Array.prototype });
 
 // Array observe
+var arr = ['a', 'b', 'c'];
+
+Array.observe(arr, function(changes) {
+  console.log(changes);
+});
+
+arr[1] = 'B';
+// [{type: 'update', object: <arr>, name: '1', oldValue: 'b'}]
+
+arr[3] = 'd';
+// [{type: 'splice', object: <arr>, index: 3, removed: [], addedCount: 1}]
+
+arr.splice(1, 2, 'beta', 'gamma', 'delta');
+// [{type: 'splice', object: <arr>, index: 1, removed: ['B', 'c', 'd'], addedCount: 3}]
 
 // Array of
+Array.of(1);         // [1]
+Array.of(1, 2, 3);   // [1, 2, 3]
+Array.of(undefined); // [undefined]
 
 // Array concat
+var alpha = ['a', 'b', 'c'],
+    numeric = [1, 2, 3];
+
+var alphaNumeric = alpha.concat(numeric);
+
+console.log(alphaNumeric); 
+// Da como resultado: ['a', 'b', 'c', 1, 2, 3]
 
 // Array copyWithin
+[1, 2, 3, 4, 5].copyWithin(-2);
+// [1, 2, 3, 1, 2]
+
+[1, 2, 3, 4, 5].copyWithin(0, 3);
+// [4, 5, 3, 4, 5]
+
+[1, 2, 3, 4, 5].copyWithin(0, 3, 4);
+// [4, 2, 3, 4, 5]
+
+[1, 2, 3, 4, 5].copyWithin(-2, -3, -1);
+// [1, 2, 3, 3, 4]
 
 // Array entries
+var arr = ['a', 'b', 'c'];
+var eArr = arr.entries();
+
+console.log(eArr.next().value); // [0, 'a']
+console.log(eArr.next().value); // [1, 'b']
+console.log(eArr.next().value); // [2, 'c']
 
 // Array every
+function esSuficientementeGrande(elemento, indice, arrreglo) {
+  return elemento >= 10;
+}
+[12, 5, 8, 130, 44].every(esSuficientementeGrande);   // false
+[12, 54, 18, 130, 44].every(esSuficientementeGrande); // true
 
 // Array fill
+[1, 2, 3].fill(4);               // [4, 4, 4]
+[1, 2, 3].fill(4, 1);            // [1, 4, 4]
+[1, 2, 3].fill(4, 1, 2);         // [1, 4, 3]
+[1, 2, 3].fill(4, 1, 1);         // [1, 2, 3]
+[1, 2, 3].fill(4, -3, -2);       // [4, 2, 3]
+[1, 2, 3].fill(4, NaN, NaN);     // [1, 2, 3]
+Array(3).fill(4);                // [4, 4, 4]
+[].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
 
 // Array filter
+function esSuficientementeGrande(elemento) {
+  return elemento >= 10;
+}
+var filtrados = [12, 5, 8, 130, 44].filter(esSuficientementeGrande);
+// filtrados es [12, 130, 44]
 
 // Array find
+var inventario = [
+    {nombre: 'manzanas', cantidad: 2},
+    {nombre: 'bananas', cantidad: 0},
+    {nombre: 'cerezas', cantidad: 5}
+];
+
+function esCereza(fruta) { 
+    return fruta.nombre === 'cerezas';
+}
+
+console.log(inventario.find(esCereza)); // { nombre: 'cerezas', cantidad: 5 }
 
 // Array findIndex
+function isPrime(element, index, array) {
+  var start = 2;
+  while (start <= Math.sqrt(element)) {
+    if (element % start++ < 1) {
+      return false
+    }
+  }
+  return element > 1;
+}
+
+console.log([4, 6, 8, 12].findIndex(isPrime)); // -1, no encontrado
+console.log([4, 6, 7, 12].findIndex(isPrime)); // 2
 
 // Array flatMap
+var arr1 = [1, 2, 3, 4];
+
+arr1.map(x => [x * 2]); 
+// [[2], [4], [6], [8]]
+
+arr1.flatMap(x => [x * 2]);
+// [2, 4, 6, 8]
+
+// only one level is flattened
+arr1.flatMap(x => [[x * 2]]);
+// [[2], [4], [6], [8]]
 
 // Array flatten
 let spaced = [1,, 3, 4, 5];

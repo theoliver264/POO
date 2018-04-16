@@ -117,23 +117,50 @@ console.log(autores);   // ['Persona 2', 'Persona 1']
 console.log(array.reverse());   // [1, 6, 5, 4, 3, 2, 1]
 
 // Array shift
+console.log(array.shift()) // out: 1
 
 // Array slice
+console.log(array.slice(2)) // [3, 4, 5, 6, 1]
 
 // Array some
+var even = function(element) {
+    // checa si algun valor es par
+    return element % 2 === 0;
+  }; 
+console.log(array.some(even)); //out: true
 
 // Array sort
+console.log(array.sort())// [1, 1, 2, 3, 4, 5, 6]
 
 // Array splice
+array.splice(1,0, 'insertado')
+console.log(array) // [1, 'insertado', 2, 3, 4, 5, 6, 1]
 
 // Array toLocaleString
+console.log(array.toLocaleString()) // "1,2,3,4,5,6,1"
 
 // Array toSource
+//Funcion no estandar 
 
 // Array toString
+console.log(array.toString()) // "1,2,3,4,5,6,1"
 
 // Array unshift
+console.log(array.unshift(3,4))// [3, 4, 1, 2, 3, 4, 5, 6, 1]
 
 // Array values
+var iterator = array.values();
+
+console.log(iterator.next().value); // 1 
+console.log(iterator.next().value); // 2 
+console.log(iterator.next().value); // 3 
+console.log(iterator.next().value); // 4 
+console.log(iterator.next().value); // 5
 
 // Array [@@iterator]
+var eArr = array[Symbol.iterator]()
+console.log(eArr.next().value); // 1
+console.log(eArr.next().value); // 2
+console.log(eArr.next().value); // 3
+console.log(eArr.next().value); // 4
+console.log(eArr.next().value); // 5
